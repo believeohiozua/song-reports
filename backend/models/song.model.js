@@ -4,13 +4,18 @@ const Schema = mongoose.Schema;
 
 const songSchema = new Schema({
   song: { type: String, required: true },
+  title: { type: String, required: true },
   artist: { type: String, required: true },
-  description: { type: String, required: true },  
+  description: { type: String, required: true },
+  photo: { type: String, required: true },
+  email: { type: String, required: true },
   report: [
-    { type: Schema.Types.ObjectId, 
-      required: false,
-      ref: 'Usage'
-     }
+    {
+      udid: String,
+      usage: Number,
+      duration: Number,
+      date: Date
+    }
   ],
 }, {
   timestamps: true,

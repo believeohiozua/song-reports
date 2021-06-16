@@ -10,6 +10,7 @@ const usageSchema = new Schema({
     trim: true,
     minlength: 5
   },
+  usage: { type: Number, required: true },
   duration: { type: Number, required: true },
   date: { type: Date, required: true },
 }, {
