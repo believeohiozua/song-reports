@@ -17,8 +17,10 @@ function App() {
       <TopNav />
       <Route path="/" exact component={HomePage} />
       <Route path="/add-song" exact component={CreateSong} />
+      <Route path="/update/:id" exact component={CreateSong} />
       <Route path="/songs" exact component={SongList} />
-      <Route path="/songs/:id" exact component={SongDetail} />
+      <Route path="/song/:id" exact component={SongDetail} />
+      <Route path="/report/:id" exact component={Report} />
       <Route path="/report" exact component={Report} />
       <Route path="/detail" exact component={SongDetail} />
       <Footer />

@@ -11,7 +11,7 @@ function TopNav() {
                     <Nav className="mx-auto">
                         <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="/songs">Browse</Nav.Link>
-                        <Nav.Link href="/add-song">create</Nav.Link>
+                        <Nav.Link href="/add-song">Add</Nav.Link>
                     </Nav>
                 </Container>
             </Navbar>

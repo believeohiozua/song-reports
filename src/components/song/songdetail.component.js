@@ -1,77 +1,141 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-function SongDetail() {
-    // state = {
-    //     time: 0
 
-    // }
+function SongDetail(props) {
+    const [newprogress, setProgress] = useState({ get_usage: 0, get_percentage: 0, get_video_length: 0 });
+    const [songDetail, setsongDetail] = useState()
+    const [usageField, setusageField] = useState({
+        udid: '',
+        duration: '',
+        percentage: '',
+        date: '',
+    })
     const handleProgress = progress => {
-        console.log('onProgress', progress)
+        var durationToSet = Math.ceil(((progress.playedSeconds + progress.played) / progress.loadedSeconds) * 100)
+        var usageData = {
+            get_usage: progress.playedSeconds + progress.played,
+            get_percentage: durationToSet,
+            get_video_length: progress.loadedSeconds
+        }
+        setProgress(usageData)
     }
-    const handleDuration = (duration) => {
-        console.log('onDuration', duration)
+
+
+
+
+    const sendUsage = () => {
+        (async () => {
+            await navigator.mediaDevices.enumerateDevices({ audio: false, video: false });
+            let devices = await navigator.mediaDevices.enumerateDevices();
+            var UsageDataToSend = {
+                id: props.match.params.id,
+                udid: devices[4].deviceId,
+                video_length: newprogress.get_video_length,
+                usage: newprogress.get_usage,
+                percentage_usage: newprogress.get_percentage,
+                date: Date.now(),
+            }
+            setusageField(UsageDataToSend)
+        })();
+        axios.post("http://127.0.0.1:5000/usage/add", usageField)
+            .then(response => console.log(response.data))
+            .catch(response => console.log(response.data));
     }
+    const handleEnded = () => {
+        sendUsage()
+        console.log('onEnded')
+        // this.setState({ playing: this.state.loop })
+    }
+    const fetchSongDetail = () => {
+        axios.get(`http://127.0.0.1:5000/song/${props.match.params.id}`)
+            .then(response => setsongDetail(response.data))
+            .catch(response => console.log(response.data));
+    }
+    const deleteSongDetail = () => {
+        if (window.confirm("Are you sure you want to delete this song?")) {
+            axios.delete(`http://127.0.0.1:5000/song/${props.match.params.id}`)
+                .then(response => setsongDetail(response.data))
+                .catch(response => console.log(response.data));
+            window.location = '/';
+        }
+    }
+
+
+
+
+    React.useEffect(() => fetchSongDetail(), [])
+    console.log({ ...usageField })
 
     return (
         <div className="container pt-5 mt-5">
-            <h1>Title</h1>
-            <div className="row">
-                <div className="col-md-10 mx-auto">
+            {songDetail ? <>
+                <h1>{songDetail.title}</h1>
+                <div className="row">
+                    <div className="col-md-10 mx-auto">
 
-                    <div className='player-wrapper'>
-                        <ReactPlayer
-                            className='react-player'
-                            url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
-                            // style={{
-                            //     width: '100%',
-                            //     height: '100%'
-                            // }}
-                            width='100%'
-                            height='30rem'
-                            playing={true}
-                            // controls={true}
-                            pip={true}
-                            onDuration={handleDuration}
-                            onProgress={handleProgress}
-                            playIcon={'https://images.pexels.com/photos/5331160/pexels-photo-5331160.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'}
-                        />
+                        <div className='player-wrapper'>
+                            <ReactPlayer
+                                className='react-player'
+                                url={songDetail.song}
+                                width='100%'
+                                height='30rem'
+                                onProgress={handleProgress}
+                                onEnded={handleEnded}
+                            />
+                        </div>
+                        <hr />
+                        <ProgressBar>
+                            <ProgressBar striped variant={
+                                newprogress.get_percentage < 33.33 ? 'warning' : `${newprogress.get_percentage < 66.66 ? 'info' : 'success'}`
+                            } now={newprogress.get_percentage} label={`${newprogress.get_percentage}%`} />
+                        </ProgressBar>
+                        <hr />
+                        <div>
+                            <h4>{songDetail.artist}</h4>
+                            {songDetail.description}
+                        </div>
                     </div>
-                    <hr />
-                    <ProgressBar>
-                        <ProgressBar striped variant="success" now={40} label={`usage ${40}%`} />
-                    </ProgressBar>
-                    <hr />
-                    <div>
-                        <h4>Artist</h4>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                        Aliquid numquam consectetur laboriosam maxime amet quibusdam adipisci,
-                        voluptatem eligendi similique, dolores architecto vero!
-                        Odio voluptas facilis laboriosam dolorem deserunt perspiciatis assumenda!
-                    </div>
-                </div>
-                <div className="col-md-2 mx-auto">
-                    <div className='d-grid gap-2'>
-                        <Link to='/report' className="btn btn-outline-info">
-                            View Usage Report
+                    <div className="col-md-2 mx-auto">
+                        <div className='d-grid gap-2'>
+                            <Link className="btn btn-outline-info"
+                                to={{
+                                    pathname: `/report/${songDetail._id}`,
+                                    state: { id: songDetail._id }
+                                }}
+                            >
+                                View Usage Report
                     </Link>
-                    </div>
+                        </div>
                     &ensp;
                     <div className='d-grid gap-2'>
-                        <button className="btn btn-outline-success">
-                            Update Song
-                    </button>
-                    </div>
+                            <Link className="btn btn-outline-success"
+                                to={{
+                                    pathname: `/update/${songDetail._id}`,
+                                    state: { id: songDetail._id }
+                                }}>
+                                Update Song
+                    </Link>
+                        </div>
                    &ensp;
                    <div className='d-grid gap-2'>
-                        <button className="btn btn-outline-danger">
-                            Delete Song
+                            <button className="btn btn-outline-danger" onClick={deleteSongDetail}>
+                                Delete Song
                     </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </> :
+                <>
+                    <div className="container">
+                        <div className="row div col-md-6 mx-auto">
+                            <span className="text-center spinner-border small mx-auto"></span>
+                        </div>
+                    </div>
+                </>}
         </div>
     )
 }

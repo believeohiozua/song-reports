@@ -7,8 +7,8 @@ import SongList from './songlist.component';
 function HomePage() {
     return (
         <div className="mt-5 pt-2">
-            <div className="row">
-                <div className="col-md-6">
+            <div className="row ms-lg-1">
+                <div className="col-md-6 mt-lg-1">
 
                     <Carousel
                         fade
@@ -17,10 +17,10 @@ function HomePage() {
                     >
                         <Carousel.Item interval={5000}>
                             <img
-                                className="d-block w-100"
+                                className="d-block w-100 rounded"
                                 src="https://images.pexels.com/photos/363905/pexels-photo-363905.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                                 alt="First slide"
-                                // height='550'
+                            // height='550'
                             />
                             <Carousel.Caption>
                                 <h3>First slide label</h3>
@@ -29,10 +29,10 @@ function HomePage() {
                         </Carousel.Item>
                         <Carousel.Item>
                             <img
-                                className="d-block w-100"
+                                className="d-block w-100 rounded"
                                 src="https://images.pexels.com/photos/417451/pexels-photo-417451.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                                 alt="Second slide"
-                                // height='550'
+                            // height='550'
                             />
                             <Carousel.Caption>
                                 <h3>Second slide label</h3>
@@ -41,10 +41,10 @@ function HomePage() {
                         </Carousel.Item>
                         <Carousel.Item>
                             <img
-                                className="d-block w-100"
+                                className="d-block w-100 rounded"
                                 src="https://images.pexels.com/photos/1539789/pexels-photo-1539789.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
                                 alt="Third slide"
-                                // height='550'
+                            // height='550'
                             />
                             <Carousel.Caption>
                                 <h3>Third slide label</h3>
@@ -53,14 +53,14 @@ function HomePage() {
                         </Carousel.Item>
                     </Carousel>
                 </div>
-                <div className="col-md-6 p-0">
-                    <CreateSong  size={10} pad={2}/>
+                <div className="col-md-6">
+                    <CreateSong size={10} pad={2} />
                 </div>
 
-               
+
                 <div className="col-md-12">
-                <hr />
-                    <SongList/>
+                    <hr />
+                    <SongList size={10} pad={2} />
                 </div>
             </div>
 

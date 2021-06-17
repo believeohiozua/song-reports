@@ -9,3 +9,12 @@ html,body{
     margin-top: 5em !important;
   }
 }
+#table-body-sec{
+  height: 30em !important;
+  overflow-y: scroll !important;
+}
+#table-body-sec::-webkit-scrollbar{
+  /* display: none; */
+  width: 2px;  
+  background: black;
+}

@@ -27,7 +27,7 @@ function Footer() {
                                         <i className="h3 fa fa-map-marker"></i>
                                         <div className="cta-text">
                                             <h4>Find us</h4>
-                                            <span>1010 Avenue, sw 54321, chandigarh</span>
+                                            <span>35, Irogama Street, Edo, Nigeria</span>
                                         </div>
                                     </div>
                                 </div>
@@ -36,7 +36,7 @@ function Footer() {
                                         <i className="h3 fa fa-phone"></i>
                                         <div className="cta-text">
                                             <h4>Call us</h4>
-                                            <span>9876543210 0</span>
+                                            <span>+234 703 5834 838</span>
                                         </div>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@ function Footer() {
                                         <i className="h3 fa fa-envelope"></i>
                                         <div className="cta-text">
                                             <h4>Mail us</h4>
-                                            <span>mail@info.com</span>
+                                            <span>mail@songarena.com</span>
                                         </div>
                                     </div>
                                 </div>

@@ -12,8 +12,9 @@ const songSchema = new Schema({
   report: [
     {
       udid: String,
+      video_length: Number,
       usage: Number,
-      duration: Number,
+      percentage_usage: Number,
       date: Date
     }
   ],
