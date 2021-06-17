@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Chart } from 'react-charts';
 import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -20,7 +19,7 @@ function Report(props) {
         get_tile = songReport.title;
         for (const rep in songReport.report) {
             console.log(rep, songReport.report[rep]);
-            label.push(songReport.report[rep].udid.slice(0,5))
+            label.push(songReport.report[rep].udid.slice(0, 5))
             get_data.push(songReport.report[rep].usage)
         }
     }
