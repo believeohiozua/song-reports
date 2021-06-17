@@ -106,3 +106,4 @@ dist
 #masOS
 .DS_Store
 .vscode
+package-lock.json
