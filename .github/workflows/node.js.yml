@@ -25,6 +25,6 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: backend/npm ci
-    - run: backend/npm run build --if-present
-    - run: backend/npm test
+    - run: cd backend && npm ci
+    - run: cd backend && npm run build --if-present
+    - run: cd backend && npm test
