@@ -25,6 +25,7 @@ function CreateSong(props) {
             formsec.style.display = 'none';
             var add_more = document.getElementById('add-more');
             add_more.style.display = '';
+            window.location = '/songs';
 
         }
     }
