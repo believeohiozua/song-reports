@@ -25,7 +25,7 @@ router.route('/add').post((req, res) => {
   });
 
   newSong.save()
-    .then(() => res.json('Song added!'))
+    .then(() => res.json('Song added!'), res.status(201))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -39,7 +39,7 @@ router.route('/:id').delete((req, res) => {
     .then(() => res.json('Song deleted.'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').put((req, res) => {
   Song.findById(req.params.id)
     .then(getSongs => {
       getSongs.song = req.body.song;
@@ -49,7 +49,7 @@ router.route('/update/:id').post((req, res) => {
       getSongs.photo = req.body.photo;
       getSongs.email = req.body.email;
       getSongs.save()
-        .then(() => res.json('Song updated!'))
+        .then(() => res.json('Song updated!'), res.status(200))
         .catch(err => res.status(400).json('Error: ' + err));
     })
     .catch(err => res.status(400).json('Error: ' + err));

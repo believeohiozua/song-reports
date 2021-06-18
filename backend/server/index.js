@@ -15,14 +15,16 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCrea
 );
 const connection = mongoose.connection;
 connection.once('open', () => {
-  console.log("MongoDB database connection established successfully");
+    console.log("MongoDB database connection established successfully");
 })
 
-const songRouter = require('./routes/song');
-const usageRouter = require('./routes/usage');
-app.use('/song', songRouter);
-app.use('/usage', usageRouter);
+const songRouter = require('../routes/song');
+const usageRouter = require('../routes/usage');
+app.use('/api/v1/song', songRouter);
+app.use('/api/v1/usage', usageRouter);
 
 app.listen(port, () => {
-  console.log(`Server is running on port: ${port}`);
+    console.log(`Server is running on port: ${port}`);
 });
+
+module.exports = app
