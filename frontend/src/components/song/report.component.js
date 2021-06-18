@@ -13,25 +13,33 @@ function Report(props) {
             .catch(response => console.log(response.data));
     }
     var label = []
-    var get_data = []
+    var get_usage = []
+    var get_video_length = []
     var get_tile = ''
     if (songReport && songReport.report) {
         get_tile = songReport.title;
         for (const rep in songReport.report) {
             console.log(rep, songReport.report[rep]);
             label.push(songReport.report[rep].udid.slice(0, 5))
-            get_data.push(songReport.report[rep].usage)
+            get_usage.push(songReport.report[rep].usage)
+            get_video_length.push(songReport.report[rep].percentage_usage)
         }
     }
     const fetchReportData = {
         labels: label,
         datasets: [
             {
-                label: get_tile,
-                data: get_data,
+                label: "Usage",
+                data: get_usage,
                 fill: true,
                 backgroundColor: "rgba(75,192,192,0.2)",
                 borderColor: "rgba(75,192,192,1)"
+            },
+            {
+                label: "Percentage Usage",
+                data: get_video_length,
+                fill: false,
+                borderColor: "#742774"
             }
         ]
     };
@@ -104,6 +112,7 @@ function Report(props) {
                                     <th>Usage</th>
                                     <th>Percentage(%)</th>
                                     <th>Date</th>
+                                    <th>Action</th>
 
                                 </tr>
                             </thead>
@@ -119,6 +128,14 @@ function Report(props) {
                                             <td>{report.usage}</td>
                                             <td>{report.percentage_usage}</td>
                                             <td>{report.date}</td>
+                                            <td className="text-center">
+                                                <button
+                                                    className="btn btn-outline-danger btn-sm"
+                                                    onClick={() => alert('This feature has not been implimented')}
+                                                >
+                                                    <i className="fa fa-trash"></i>
+                                                </button>
+                                            </td>
 
                                         </tr>
                                     )

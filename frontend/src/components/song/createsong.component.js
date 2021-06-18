@@ -14,7 +14,7 @@ function CreateSong(props) {
     })
     const updateSong = (id) => {
         if (id && props.match.params.id) {
-            axios.get(`http://127.0.0.1:5000/song/${props.match.params.id}`)
+            axios.get(`/song/${props.match.params.id}`)
                 .then(response => setInputField(response.data))
                 .catch(response => console.log(response.data));
         }
@@ -34,7 +34,7 @@ function CreateSong(props) {
         const { song, title, artist, description, photo, email } = inputField;
         const data = { song, title, artist, description, photo, email };
         console.log(data)
-        axios.post('http://127.0.0.1:5000/song/add', data)
+        axios.post('/song/add', data)
             .then(response => SubmsissionRemark(response.data))
             .catch(response => console.log(response.data));
     };

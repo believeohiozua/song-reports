@@ -41,7 +41,7 @@ function SongDetail(props) {
             }
             setusageField(UsageDataToSend)
         })();
-        axios.post("http://127.0.0.1:5000/usage/add", usageField)
+        axios.post("/usage/add", usageField)
             .then(response => console.log(response.data))
             .catch(response => console.log(response.data));
     }
@@ -51,13 +51,13 @@ function SongDetail(props) {
         // this.setState({ playing: this.state.loop })
     }
     const fetchSongDetail = () => {
-        axios.get(`http://127.0.0.1:5000/song/${props.match.params.id}`)
+        axios.get(`/song/${props.match.params.id}`)
             .then(response => setsongDetail(response.data))
             .catch(response => console.log(response.data));
     }
     const deleteSongDetail = () => {
         if (window.confirm("Are you sure you want to delete this song?")) {
-            axios.delete(`http://127.0.0.1:5000/song/${props.match.params.id}`)
+            axios.delete(`/song/${props.match.params.id}`)
                 .then(response => setsongDetail(response.data))
                 .catch(response => console.log(response.data));
             window.location = '/';
