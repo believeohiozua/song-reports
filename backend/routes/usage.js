@@ -61,21 +61,14 @@ router.route('/add').post((req, res) => {
 router.route('/delete/:id').post((req, res) => {
   const song_id = req.body.song_id;
   const report_id = req.body.report_id;
-
   Song.findByIdAndUpdate(song_id, {
     $pull: { report: { _id: new ObjectId(report_id) } }
   }, { new: false }).exec()
     .then((res) => console.log(res),
-      Usage.findByIdAndDelete(req.params.id)
-      // .then(() => res.json('usage deleted.'),
-      //   res.send('done')
-      // )
-      // .catch(err => res.status(400).json('Error: ' + err))
-    )
-    .catch((err) => console.log(err)
-    );
-
-
+      Usage.findByIdAndDelete(req.params.id)),
+      res.json('usage report deleted')
+      .catch((err) => console.log(err)
+      );
 });
 
 module.exports = router;
