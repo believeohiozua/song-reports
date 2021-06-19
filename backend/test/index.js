@@ -31,7 +31,7 @@ const sampleSongTwo = {
 };
 
 const sampleUsage = {
-    id: '',
+    song_id: '',
     udid: '60cb3d8ade29b540428b149e',
     video_length: 90,
     usage: 75,
