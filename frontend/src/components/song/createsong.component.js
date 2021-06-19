@@ -17,23 +17,22 @@ function CreateSong(props) {
             axios.get(`/api/v1/song/${props.match.params.id}`)
                 .then(response => setInputField(response.data))
                 .catch(response => console.log(response.data));
+
         }
     }
     const SubmsissionRemark = (res) => {
         if (res == 'Song added!') {
+            axios.get('/api/v1/song/')
             var formsec = document.getElementById('form-sec');
             formsec.style.display = 'none';
             var add_more = document.getElementById('add-more');
             add_more.style.display = '';
-            window.location = '/songs';
-
         }
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { song, title, artist, description, photo, email } = inputField;
-        const data = { song, title, artist, description, photo, email };
-        console.log(data)
+        const data = { song, title, artist, description, photo, email };     
         axios.post('/api/v1/song/add', data)
             .then(response => SubmsissionRemark(response.data))
             .catch(response => console.log(response.data));
