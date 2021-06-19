@@ -46,8 +46,3 @@ https://github.com/believeohiozua/song-reports.git
 
 - ### Web Host Link
 http://songusage.herokuapp.com/
-
-
-
-- ### Screen graps
-screengrabs
