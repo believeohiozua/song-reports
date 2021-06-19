@@ -3,11 +3,11 @@ import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from "react-chartjs-2";
+import moment from 'moment';
 
 
 function Report(props) {
     const [songReport, setsongReport] = useState()
-    // const [deleteReport, setdeleteReport] = useState()
     const fetchSongReport = () => {
         axios.get(`/api/v1/song/${props.match.params.id}`)
             .then(response => setsongReport(response.data))
@@ -20,7 +20,6 @@ function Report(props) {
     if (songReport && songReport.report) {
         get_tile = songReport.title;
         for (const rep in songReport.report) {
-            console.log(rep, songReport.report[rep]);
             label.push(songReport.report[rep].udid.slice(0, 5))
             get_usage.push(songReport.report[rep].usage)
             get_video_length.push(songReport.report[rep].percentage_usage)
@@ -80,17 +79,16 @@ function Report(props) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* <div id="table-body-sec" className="col-md-12"> */}
                                 {songReport.report && songReport.report.length > 0 ? songReport.report.map((report, i) => {
-                                    // console.log(songReport.report)
+                                    {songReport.report.reverse()}
                                     return (
                                         <tr key={i}>
                                             <td>{i + 1}</td>
                                             <td>{report.udid.slice(0, 10)}...</td>
-                                            <td>{report.video_length}</td>
-                                            <td>{report.usage}</td>
-                                            <td>{report.percentage_usage}</td>
-                                            <td>{report.date}</td>
+                                            <td>{report.video_length.toFixed(2)}</td>
+                                            <td>{report.usage.toFixed(2)}</td>
+                                            <td>{report.percentage_usage}</td>                                          
+                                            <td>{moment(report.date).format('DD MMM, YYYY')}</td>
                                             <td className="text-center">
                                                 <button
                                                     className="btn btn-outline-danger btn-sm"
@@ -131,15 +129,7 @@ function Report(props) {
                                 height: '300px'
                             }}
                         >
-                            {/* <Chart data={data} axes={axes} /> */}
                             <div className="App">
-                                {/* {songReport.report && songReport.report.length > 0 ? songReport.report.map((report, i) => {
-                                    console.log(songReport.report)
-                                    return (<></>)
-                                })
-                                    :
-                                    <></>
-                                } */}
                                 <Line data={fetchReportData} />
                             </div>
                         </div>

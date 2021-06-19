@@ -3,30 +3,29 @@ import ReactPlayer from 'react-player';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom';
-import { Prompt } from 'react-router'
 import axios from 'axios';
 
 
 function SongDetail(props) {
     const [newprogress, setProgress] = useState({ get_usage: 0, get_percentage: 0, get_video_length: 0 });
     const [songDetail, setsongDetail] = useState()
-    const [volume, setVolume] = useState(50)
+    const [volume, setVolume] = useState(0.5)
+    const [play, setplay] = useState(false)
 
     const handleProgress = progress => {
-        var durationToSet = Math.ceil(((progress.playedSeconds + progress.played) / progress.loadedSeconds) * 100)
+        var durationToSet = Math.ceil(((progress.playedSeconds) / progress.loadedSeconds) * 100)
         var usageData = {
             get_usage: progress.playedSeconds + progress.played,
             get_percentage: durationToSet,
             get_video_length: progress.loadedSeconds
         }
-        setProgress(usageData)
+        setProgress(usageData);
     }
 
     const sendUsage = () => {
         (async () => {
             await navigator.mediaDevices.enumerateDevices({ audio: false, video: false });
             let devices = await navigator.mediaDevices.enumerateDevices();
-            console.log(devices, devices[4].deviceId)
             var get_udid;
             if (devices[4].deviceI) {
                 get_udid = devices[4].deviceId
@@ -46,7 +45,6 @@ function SongDetail(props) {
             axios.post("/api/v1/usage/add/", UsageDataToSend)
                 .then(response => console.log(response.data))
                 .catch(response => console.log(response.data));
-            console.log(UsageDataToSend)
         })()
     };
 
@@ -69,7 +67,6 @@ function SongDetail(props) {
         const e = event || window.event;
         e.preventDefault();
         if (e) {
-            e.returnValue = 'Are you sure you want to leave?';
             if (newprogress.get_usage > 0) {
                 sendUsage();
             }
@@ -78,7 +75,17 @@ function SongDetail(props) {
     const volumeChange = (e) => {
         e.preventDefault();
         var vol = document.getElementById('volumeChange').value;
-        setVolume(vol)
+        setVolume(vol * 0.1)
+    }
+    const pauseSong = () => {
+        setplay(false)
+    }
+    const playSong = () => {
+        setplay(true)
+    }
+
+    const stopPlay = () => {
+        setplay(true)
     }
     React.useEffect(() => fetchSongDetail(), []);
 
@@ -99,15 +106,43 @@ function SongDetail(props) {
                                 onProgress={handleProgress}
                                 onEnded={sendUsage}
                                 volume={volume}
+                                playing={play}
                             />
                         </div>
-                        <form>
-                            <div class="form-group">
-                                <label for="volumeChange"><i class="fa fa-volume-off" aria-hidden="true"></i>&ensp;</label>
-                                <input type="range" class="form-control-range" id="volumeChange" onChange={volumeChange} />
-                                <label for="volumeChange">&ensp;<i class="fa fa-volume-down" aria-hidden="true"></i> </label>
+                        <div className="row border-bottom rounded-pill my-auto">
+                            <form className='col-3'>
+                                <div className="form-group m-1">
+                                    <label htmlFor="volumeChange"><i className="fa fa-volume-off" aria-hidden="true"></i>&ensp;</label>
+                                    <input type="range" className="form-control-range" id="volumeChange" onChange={volumeChange} />
+                                    <label htmlFor="volumeChange">&ensp;<i className="fa fa-volume-down" aria-hidden="true"></i> </label>
+                                </div>
+                            </form>
+                            <div className="col-3">
+                                <div className="m-1">
+                                    <button className="btn btn-outline-white btn-sm rounded-circle border"
+                                        onClick={playSong}>
+                                        <i className="fa fa-play text-success"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </form>
+                            <div className="col-3">
+                                <div className="m-1">
+                                    <button className="btn btn-outline-white btn-sm rounded-circle border"
+                                        onClick={pauseSong}>
+                                        <i className="fa fa-pause text-warning"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="col-3">
+                                <div className="m-1">
+                                    <button className="btn btn-outline-white btn-sm rounded-circle border"
+                                        onClick={pauseSong}>
+                                        <i className="fa fa-stop text-danger"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                         <hr />
                         <ProgressBar>
                             <ProgressBar striped variant={

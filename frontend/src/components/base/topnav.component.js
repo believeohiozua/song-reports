@@ -7,7 +7,7 @@ function TopNav() {
         <>
             <Navbar bg="dark" variant="dark" fixed="top">
                 <Container>
-                    <Navbar.Brand href="/">Songs Arena</Navbar.Brand>
+                    <Navbar.Brand href="/">Songs Report</Navbar.Brand>
                     <Nav className="mx-auto">
                         <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="/songs">Browse</Nav.Link>

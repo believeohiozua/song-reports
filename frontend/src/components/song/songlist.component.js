@@ -70,6 +70,7 @@ function SongList(props) {
                         <div className="row">
 
                             {songData && songData.length > 0 ? songData.map((song, i) => {
+                                { songData.reverse() }
                                 return (
                                     <div className="col-md-3 mb-3" key={i}>
                                         <div className="border p-1 rounded shadow">
@@ -145,24 +146,6 @@ function SongList(props) {
                                 :
                                 <span className="text-center spinner-border small mx-auto"></span>
                             }
-                            {/* <div className="card col-md-4" style={{ width: '18rem' }}>
-                                <img src="https://images.pexels.com/photos/5541683/pexels-photo-5541683.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" className="card-img-top" alt="..." />
-                                <div className="card-body">
-                                    <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                </div>
-                            </div> */}
-                            {/* <div className="col-md-4">
-                                <div className="">
-                                    <img src="https://images.pexels.com/photos/5541683/pexels-photo-5541683.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                                        alt=""
-                                        height='300'
-                                        width='320'
-                                        className='mx-auto rounded'
-                                    />
-                                    <figcaption>Artist</figcaption>
-                                    <span>usage (10)</span>
-                                </div>
-                            </div> */}
                         </div>
                     </div>
                 </div>
