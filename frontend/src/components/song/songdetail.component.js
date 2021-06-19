@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
 import ProgressBar from 'react-bootstrap/ProgressBar';
+import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom';
+import { Prompt } from 'react-router'
 import axios from 'axios';
 
 
 function SongDetail(props) {
     const [newprogress, setProgress] = useState({ get_usage: 0, get_percentage: 0, get_video_length: 0 });
     const [songDetail, setsongDetail] = useState()
-    const [usageField, setusageField] = useState({
-        udid: '',
-        duration: '',
-        percentage: '',
-        date: '',
-    })
+    const [volume, setVolume] = useState(50)
+
     const handleProgress = progress => {
         var durationToSet = Math.ceil(((progress.playedSeconds + progress.played) / progress.loadedSeconds) * 100)
         var usageData = {
@@ -24,54 +22,69 @@ function SongDetail(props) {
         setProgress(usageData)
     }
 
-
-
-
     const sendUsage = () => {
         (async () => {
             await navigator.mediaDevices.enumerateDevices({ audio: false, video: false });
             let devices = await navigator.mediaDevices.enumerateDevices();
+            console.log(devices, devices[4].deviceId)
+            var get_udid;
+            if (devices[4].deviceI) {
+                get_udid = devices[4].deviceId
+            } else if (devices[3].deviceId) {
+                get_udid = devices[4].deviceId
+            } else {
+                get_udid = uuidv4();
+            }
             var UsageDataToSend = {
-                id: props.match.params.id,
-                udid: devices[4].deviceId,
+                song_id: props.match.params.id,
+                udid: get_udid,
                 video_length: newprogress.get_video_length,
                 usage: newprogress.get_usage,
                 percentage_usage: newprogress.get_percentage,
                 date: Date.now(),
             }
-            setusageField(UsageDataToSend)
-        })();
-        axios.post("/usage/add", usageField)
-            .then(response => console.log(response.data))
-            .catch(response => console.log(response.data));
-    }
-    const handleEnded = () => {
-        sendUsage()
-        console.log('onEnded')
-        // this.setState({ playing: this.state.loop })
-    }
+            axios.post("/api/v1/usage/add/", UsageDataToSend)
+                .then(response => console.log(response.data))
+                .catch(response => console.log(response.data));
+            console.log(UsageDataToSend)
+        })()
+    };
+
     const fetchSongDetail = () => {
-        axios.get(`/song/${props.match.params.id}`)
+        axios.get(`/api/v1/song/${props.match.params.id}`)
             .then(response => setsongDetail(response.data))
             .catch(response => console.log(response.data));
     }
     const deleteSongDetail = () => {
         if (window.confirm("Are you sure you want to delete this song?")) {
-            axios.delete(`/song/${props.match.params.id}`)
+            axios.delete(`/api/v1/song/${props.match.params.id}`)
                 .then(response => setsongDetail(response.data))
                 .catch(response => console.log(response.data));
             window.location = '/';
         }
+    };
+
+
+    window.onbeforeunload = (event) => {
+        const e = event || window.event;
+        e.preventDefault();
+        if (e) {
+            e.returnValue = 'Are you sure you want to leave?';
+            if (newprogress.get_usage > 0) {
+                sendUsage();
+            }
+        }
+    };
+    const volumeChange = (e) => {
+        e.preventDefault();
+        var vol = document.getElementById('volumeChange').value;
+        setVolume(vol)
     }
-
-
-
-
-    React.useEffect(() => fetchSongDetail(), [])
-    console.log({ ...usageField })
+    React.useEffect(() => fetchSongDetail(), []);
 
     return (
         <div className="container pt-5 mt-5">
+
             {songDetail ? <>
                 <h1>{songDetail.title}</h1>
                 <div className="row">
@@ -84,9 +97,17 @@ function SongDetail(props) {
                                 width='100%'
                                 height='30rem'
                                 onProgress={handleProgress}
-                                onEnded={handleEnded}
+                                onEnded={sendUsage}
+                                volume={volume}
                             />
                         </div>
+                        <form>
+                            <div class="form-group">
+                                <label for="volumeChange"><i class="fa fa-volume-off" aria-hidden="true"></i>&ensp;</label>
+                                <input type="range" class="form-control-range" id="volumeChange" onChange={volumeChange} />
+                                <label for="volumeChange">&ensp;<i class="fa fa-volume-down" aria-hidden="true"></i> </label>
+                            </div>
+                        </form>
                         <hr />
                         <ProgressBar>
                             <ProgressBar striped variant={

@@ -1,8 +1,11 @@
+const { MongoMemoryServer } = require('mongodb-memory-server');
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = require("../server/index");
+let server = require("../server/index"); //new MongoMemoryServer(); 
+const mongoose = require('mongoose');
+let mongoServer;
+const opts = { useMongoClient: true };
 
-//Assertion Style
 chai.should();
 
 // http request
@@ -36,9 +39,9 @@ const sampleUsage = {
     date: Date.now()
 }
 var sample_id;
-chai.request(server)
-    .post("/api/v1/song/add/")
-    .send(sampleSongTwo)
+// chai.request(server)
+//     .post("/api/v1/song/add/")
+//     .send(sampleSongTwo)
 
 
 describe('Test Cases', () => {

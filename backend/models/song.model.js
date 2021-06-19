@@ -15,7 +15,8 @@ const songSchema = new Schema({
       video_length: Number,
       usage: Number,
       percentage_usage: Number,
-      date: Date
+      date: Date,
+      usage_id: String
     }
   ],
 }, {

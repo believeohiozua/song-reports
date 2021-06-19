@@ -7,8 +7,9 @@ import { Line } from "react-chartjs-2";
 
 function Report(props) {
     const [songReport, setsongReport] = useState()
+    // const [deleteReport, setdeleteReport] = useState()
     const fetchSongReport = () => {
-        axios.get(`http://127.0.0.1:5000/song/${props.match.params.id}`)
+        axios.get(`/api/v1/song/${props.match.params.id}`)
             .then(response => setsongReport(response.data))
             .catch(response => console.log(response.data));
     }
@@ -44,58 +45,20 @@ function Report(props) {
         ]
     };
 
-    const data = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        datasets: [
-            {
-                label: "First dataset",
-                data: [33, 53, 85, 41, 44, 65],
-                fill: true,
-                backgroundColor: "rgba(75,192,192,0.2)",
-                borderColor: "rgba(75,192,192,1)"
+    const deleteReport = (get_report_id, get_usage_id) => {
+        if (window.confirm("Are you sure you want to delete this usage report?")) {
+            var payload = {
+                song_id: props.match.params.id,
+                usage_id: get_usage_id,
+                report_id: get_report_id
             }
-            // ,
-            // {
-            //     label: "Second dataset",
-            //     data: [33, 25, 35, 51, 54, 76],
-            //     fill: false,
-            //     borderColor: "#742774"
-            // }
-        ]
+            axios.post(`/api/v1/usage/delete/${get_usage_id}`, payload)
+                .then(response => console.log(response.data))
+                .catch(response => console.log(response.data));
+            fetchSongReport();
+        }
     };
-    // const data = React.useMemo(
-
-    //     () => [
-
-    //         {
-    //             label: 'Series 1',
-    //             data: [{ x: 1, y: 20 }, { x: 2, y: 34 }, { x: 3, y: 80 },]
-    //         },
-    //         {
-    //             label: 'Series 2',
-    //             data: [{ x: 1, y: 40 }, { x: 2, y: 10 }, { x: 3, y: 20 }]
-    //         },
-    //         {
-    //             label: 'Series 3',
-    //             data: [{ x: 1, y: 31 }, { x: 2, y: 30 }, { x: 3, y: 30 }]
-    //         },
-    //         {
-    //             label: 'Series 4',
-    //             data: [{ x: 1, y: 34 }, { x: 2, y: 70 }, { x: 3, y: 10 }]
-    //         }
-    //     ],
-    //     []
-    // )
-
-    // const axes = React.useMemo(
-    //     () => [
-    //         { primary: true, type: 'linear', position: 'bottom' },
-    //         { type: 'linear', position: 'left' }
-    //     ],
-    //     []
-    // )
     React.useEffect(() => fetchSongReport(), [])
-    // console.log(songReport)
     return (
         <div className="container mt-5 pt-5">
             {songReport ? <>
@@ -131,7 +94,7 @@ function Report(props) {
                                             <td className="text-center">
                                                 <button
                                                     className="btn btn-outline-danger btn-sm"
-                                                    onClick={() => alert('This feature has not been implimented')}
+                                                    onClick={() => deleteReport(report._id, report.get_usage_id)}
                                                 >
                                                     <i className="fa fa-trash"></i>
                                                 </button>
@@ -144,8 +107,7 @@ function Report(props) {
                                     <tr>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
-                                        <div className="py-5">
+                                        <td className="py-5">
                                             <p>No Avalible Report for this song</p>
                                             <Link
                                                 className="btn btn-outline-success"
@@ -154,7 +116,7 @@ function Report(props) {
                                                     state: { id: songReport._id }
                                                 }}
                                             >Add Usage Report <i className="fa fa-arrow-right"></i></Link>
-                                        </div>
+                                        </td>
                                     </tr>
                                 }
 

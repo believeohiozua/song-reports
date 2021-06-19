@@ -6,7 +6,7 @@ function SongList(props) {
     const [songData, setSongData] = useState()
 
     const fetchSongs = () => {
-        axios.get('http://127.0.0.1:5000/song/')
+        axios.get('/api/v1/song/')
             .then(response => setSongData(response.data))
             .catch(response => console.log(response.data));
 
@@ -74,12 +74,6 @@ function SongList(props) {
                                     <div className="col-md-3 mb-3" key={i}>
                                         <div className="border p-1 rounded shadow">
                                             <div className="d-flex justify-content-between position-absolute w-100">
-                                                {/* <div className="label-new">
-                                                    <span className="text-white bg-success small d-flex align-items-center px-2 py-1">
-                                                        <i className="fa fa-star" aria-hidden="true"></i>
-                                                        <span className="ml-1">New</span>
-                                                    </span>
-                                                </div> */}
                                                 <div className="label-sale">
                                                     <span className="text-white bg-primary small d-flex align-items-center px-2 py-1">
                                                         <Link
