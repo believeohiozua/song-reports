@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from "react-chartjs-2";
 import moment from 'moment';
+import FilterTable from './filtertable.component'
 
 
 function Report(props) {
@@ -62,9 +63,17 @@ function Report(props) {
         <div className="container mt-5 pt-5">
             {songReport ? <>
                 <h1 className="h4">{songReport.title} <span className="">Usage Report</span></h1>
-                <hr />
+
                 <div className="row">
+                    <hr />
                     <div className="col-md-8" id="table-body-sec">
+                        <FilterTable
+                            songReport={songReport}
+                            deleteReport={deleteReport}
+                            fetchSongReport={fetchSongReport}
+                        />
+                    
+                        {/* 
                         <Table responsive="xl">
                             <thead className="text-center">
                                 <tr>
@@ -80,14 +89,14 @@ function Report(props) {
                             </thead>
                             <tbody>
                                 {songReport.report && songReport.report.length > 0 ? songReport.report.map((report, i) => {
-                                    {songReport.report.reverse()}
+                                    { songReport.report.reverse() }
                                     return (
                                         <tr key={i}>
                                             <td>{i + 1}</td>
                                             <td>{report.udid.slice(0, 10)}...</td>
                                             <td>{report.video_length.toFixed(2)}</td>
                                             <td>{report.usage.toFixed(2)}</td>
-                                            <td>{report.percentage_usage}</td>                                          
+                                            <td>{report.percentage_usage}</td>
                                             <td>{moment(report.date).format('DD MMM, YYYY')}</td>
                                             <td className="text-center">
                                                 <button
@@ -119,7 +128,9 @@ function Report(props) {
                                 }
 
                             </tbody>
+                        
                         </Table>
+                    */}
                     </div>
                     <div className="col-md-4">
                         <div
@@ -133,7 +144,7 @@ function Report(props) {
                                 <Line data={fetchReportData} />
                             </div>
                         </div>
-                        <div className="d-grid my-3">
+                        <div className="my-3">
                             <Link
                                 className="btn btn-outline-success"
                                 to={{
