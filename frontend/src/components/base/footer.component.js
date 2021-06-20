@@ -53,9 +53,9 @@ function Footer() {
                                     <div className="footer-social-icon">
                                         <span>Follow us</span>
                                         <hr />
-                                        <a href="#"><i className="mx-1 h5 border bg-white rounded-circle px-2 py-1 fa fa-facebook text-dark"></i></a>
-                                        <a href="#"><i className="mx-1 h5 border bg-white rounded-circle px-2 py-1 fa fa-twitter text-dark"></i></a>
-                                        <a href="#"><i className="mx-1 h5 border bg-white rounded-circle px-2 py-1 fa fa-whatsapp text-dark"></i></a>
+                                        <span><i className="mx-1 h5 border bg-white rounded-circle px-2 py-1 fa fa-facebook text-dark"></i></span>
+                                        <span><i className="mx-1 h5 border bg-white rounded-circle px-2 py-1 fa fa-twitter text-dark"></i></span>
+                                        <span><i className="mx-1 h5 border bg-white rounded-circle px-2 py-1 fa fa-whatsapp text-dark"></i></span>
                                     </div>
                                 </div>
                             </div>

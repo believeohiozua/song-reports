@@ -15,7 +15,7 @@ function SongDetail(props) {
     const handleProgress = progress => {
         var durationToSet = Math.ceil(((progress.playedSeconds) / progress.loadedSeconds) * 100)
         var usageData = {
-            get_usage: progress.playedSeconds + progress.played,
+            get_usage: progress.playedSeconds,
             get_percentage: durationToSet,
             get_video_length: progress.loadedSeconds
         }
@@ -42,6 +42,7 @@ function SongDetail(props) {
                 percentage_usage: newprogress.get_percentage,
                 date: Date.now(),
             }
+
             axios.post("/api/v1/usage/add/", UsageDataToSend)
                 .then(response => console.log(response.data))
                 .catch(response => console.log(response.data));
@@ -72,6 +73,7 @@ function SongDetail(props) {
             }
         }
     };
+
     const volumeChange = (e) => {
         e.preventDefault();
         var vol = document.getElementById('volumeChange').value;
@@ -84,9 +86,7 @@ function SongDetail(props) {
         setplay(true)
     }
 
-    const stopPlay = () => {
-        setplay(true)
-    }
+    // eslint-disable-next-line 
     React.useEffect(() => fetchSongDetail(), []);
 
     return (
@@ -110,9 +110,11 @@ function SongDetail(props) {
                             />
                         </div>
                         <ProgressBar className="my-1">
-                            <ProgressBar striped variant={
-                                newprogress.get_percentage < 33.33 ? 'warning' : `${newprogress.get_percentage < 66.66 ? 'info' : 'success'}`
-                            } now={newprogress.get_percentage} label={`${newprogress.get_percentage}%`} />
+                            <ProgressBar striped
+                                variant={newprogress.get_percentage < 25 ? 'danger' : `${newprogress.get_percentage < 50 ? 'warning' : `${newprogress.get_percentage < 75 ? 'info' : 'success'}`}`}
+                                now={newprogress.get_percentage}
+                                label={`${newprogress.get_percentage}%`}
+                            />
                         </ProgressBar>
                         <hr />
                         <div className="row border-bottom rounded-pill my-auto">

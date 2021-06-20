@@ -151,9 +151,9 @@ describe('Test Cases', () => {
                 .send(sampleSongTwo)
                 .end((err, response) => {
                     response.should.have.status(200);
-                    response.request._data.should.have.property('song').eq("https://www.youtube.com/watch?v=QF08nvtHHCY");
-                    response.request._data.should.have.property('title').eq("Corporate Background Music");
-                    response.request._data.should.have.property('artist').eq("FreeCopyrightMusic");
+                    response.request._data.should.have.property('song').eq("https://www.youtube.com/watch?v=5YYR5PG2X9U");
+                    response.request._data.should.have.property('title').eq("Learn Guitar with Fretello");
+                    response.request._data.should.have.property('artist').eq("Fretello");
                     done();
                 });
         });

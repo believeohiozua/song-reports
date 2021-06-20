@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "test": "mocha --timeout 90000",
+    "test": "mocha --timeout 10000",
     "start": "nodemon server.js"
   },
   "keywords": [],

@@ -12,7 +12,7 @@ function ListFilter(props) {
     let result = [];
     result = allData.filter((data) => {
       console.log(result, data);
-      return data.title.search(value) != -1 || data.artist.search(value) != -1;
+      return data.title.search(value) !== -1 || data.artist.search(value) !== -1;
     });
     setFilteredData(result);
   }
@@ -21,16 +21,7 @@ function ListFilter(props) {
       .then(response => { setFilteredData(response.data); setAllData(response.data) })
       .catch(response => console.log(response.data));
   }
-  const styles = {
-    display: 'inline',
-    width: '30%',
-    height: 50,
-    float: 'left',
-    padding: 5,
-    border: '0.5px solid black',
-    marginBottom: 10,
-    marginRight: 10
-  }
+
   useEffect(() => filterSongs(), [])
   return (
     <div className="App">
@@ -70,13 +61,16 @@ function ListFilter(props) {
                     </span>
                   </div>
                 </div>
-                <a href="#">
+                <Link to={{
+                  pathname: `/song/${song._id}`,
+                  state: { id: song._id }
+                }}>
                   <img src={song.photo}
                     className="card-img-top rounded"
                     alt="Product"
                     height='200'
                   />
-                </a>
+                </Link>
 
                 <div className="card-body px-2 pb-2 pt-1" style={{ height: '14rem', overflowY: 'hidden' }}>
                   <div className="text-center">

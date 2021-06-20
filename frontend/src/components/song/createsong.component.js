@@ -20,7 +20,7 @@ function CreateSong(props) {
         }
     }
     const SubmsissionRemark = (res) => {
-        if (res == 'Song added!') {
+        if (res === 'Song added!') {
             axios.get('/api/v1/song/')
             var formsec = document.getElementById('form-sec');
             formsec.style.display = 'none';
@@ -67,7 +67,7 @@ function CreateSong(props) {
         initialSize = props.size
         initialpad = props.pad
     }
-
+    // eslint-disable-next-line
     React.useEffect(() => updateSong(props.match), [])
 
     return (

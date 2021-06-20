@@ -45,7 +45,7 @@ function FilterTable(props) {
         const get_today_total = document.getElementById('get_today_total');
         const get_week_total = document.getElementById('get_week_total');
         const month_total_usage = document.getElementById('month_total_usage');
-        if (filterbydate.value == 'everything') {
+        if (filterbydate.value === 'everything') {
             everything.style.display = '';
             total_usage.style.display = '';
             sorted_today.style.display = 'none';
@@ -54,7 +54,7 @@ function FilterTable(props) {
             get_today_total.style.display = 'none';
             get_week_total.style.display = 'none';
             month_total_usage.style.display = 'none';
-        } else if (filterbydate.value == 'sorted_today') {
+        } else if (filterbydate.value === 'sorted_today') {
             everything.style.display = 'none'
             sorted_today.style.display = ''
             get_today_total.style.display = ''
@@ -63,7 +63,7 @@ function FilterTable(props) {
             total_usage.style.display = 'none'
             get_week_total.style.display = 'none'
             month_total_usage.style.display = 'none'
-        } else if (filterbydate.value == 'sorted_week') {
+        } else if (filterbydate.value === 'sorted_week') {
             everything.style.display = 'none';
             sorted_today.style.display = 'none';
             sorted_week.style.display = '';
@@ -72,7 +72,7 @@ function FilterTable(props) {
             total_usage.style.display = 'none';
             get_today_total.style.display = 'none';
             month_total_usage.style.display = 'none';
-        } else if (filterbydate.value == 'sorted_month') {
+        } else if (filterbydate.value === 'sorted_month') {
             everything.style.display = 'none';
             sorted_today.style.display = 'none';
             sorted_week.style.display = 'none';
@@ -84,6 +84,7 @@ function FilterTable(props) {
         }
 
     }
+    // eslint-disable-next-line
     React.useEffect(() => props.fetchSongReport(), [])
     return (
         <div>
@@ -130,7 +131,7 @@ function FilterTable(props) {
 
                 <tbody id="everything">
                     {props.songReport && props.songReport.report && props.songReport.report.length > 0 ? props.songReport.report.map((report, i) => {
-                        { props.songReport.report.reverse() }
+                        // { props.songReport.report.reverse() }
                         var everything_total_usage = (props.songReport.report.reduce((a, v) => a = a + v.usage, 0))
                         var total_usage = document.getElementById('total_usage');
                         if (total_usage) { total_usage.innerHTML = `Total Usage: ${convertHMS(everything_total_usage)}` }
@@ -179,10 +180,11 @@ function FilterTable(props) {
 
                 <tbody id="sorted_today" style={{ display: 'none' }}>
                     {props.songReport && props.songReport.report && props.songReport.report.length > 0 ? props.songReport.report.map((report, i) => {
-                        { props.songReport.report.reverse() }
+                        // eslint-disable-next-line
+                        // { props.songReport.report.reverse() }
                         var varied_date = new Date()
                         var sampleDate = new Date(report.date)
-                        if (sampleDate.getDate() == varied_date.getDate()) {
+                        if (sampleDate.getDate() === varied_date.getDate()) {
                             var get_today_total = (props.songReport.report.reduce((a, v) => a = a + v.usage, 0));
                             var total_usage = document.getElementById('get_today_total');
                             if (total_usage) { total_usage.innerHTML = `Total Usage: ${convertHMS(get_today_total)}` }
@@ -208,7 +210,7 @@ function FilterTable(props) {
 
                                 </>
                             )
-                        }
+                        } else { return '' }
                     }) : <></>}
 
                 </tbody>
@@ -216,7 +218,9 @@ function FilterTable(props) {
 
                 <tbody id="sorted_week" style={{ display: 'none' }}>
                     {props.songReport && props.songReport.report && props.songReport.report.length > 0 ? props.songReport.report.map((report, i) => {
-                        { props.songReport.report.reverse() }
+                        // eslint-disable-next-line
+                        // { props.songReport.report.reverse() }
+                        // eslint-disable-next-line
                         Date.prototype.getWeek = function () {
                             var onejan = new Date(this.getFullYear(), 0, 1);
                             var today = new Date(this.getFullYear(), this.getMonth(), this.getDate());
@@ -225,7 +229,7 @@ function FilterTable(props) {
                         };
                         var varied_date = new Date()
                         var sampleDate = new Date(report.date)
-                        if (sampleDate.getWeek() == varied_date.getWeek()) {
+                        if (sampleDate.getWeek() === varied_date.getWeek()) {
                             var get_week_total = (props.songReport.report.reduce((a, v) => a = a + v.usage, 0));
                             var total_usage = document.getElementById('get_week_total');
                             if (total_usage) { total_usage.innerHTML = `Total Usage: ${convertHMS(get_week_total)}` }
@@ -251,17 +255,18 @@ function FilterTable(props) {
 
                                 </>
                             )
-                        }
+                        } else { return '' }
                     }) : <></>}
 
                 </tbody>
 
                 <tbody id="sorted_month" style={{ display: 'none' }}>
                     {props.songReport && props.songReport.report && props.songReport.report.length > 0 ? props.songReport.report.map((report, i) => {
-                        { props.songReport.report.reverse() }
+                        // eslint-disable-next-line
+                        // { props.songReport.report.reverse() }
                         var varied_date = new Date()
                         var sampleDate = new Date(report.date)
-                        if (sampleDate.getMonth() + 1 == varied_date.getMonth() + 1) {
+                        if (sampleDate.getMonth() + 1 === varied_date.getMonth() + 1) {
                             var get_month_total = (props.songReport.report.reduce((a, v) => a = a + v.usage, 0));
                             var total_usage = document.getElementById('month_total_usage');
                             if (total_usage) { total_usage.innerHTML = `Total Usage: ${convertHMS(get_month_total)}` }
@@ -287,7 +292,7 @@ function FilterTable(props) {
 
                                 </>
                             )
-                        }
+                        } else { return '' }
                     }) : <></>}
 
                 </tbody>

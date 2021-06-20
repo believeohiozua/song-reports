@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import Table from 'react-bootstrap/Table';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Line } from "react-chartjs-2";
-import moment from 'moment';
 import FilterTable from './filtertable.component'
 
 
@@ -30,9 +28,7 @@ function Report(props) {
     var label = []
     var get_usage = []
     var get_video_length = []
-    var get_tile = ''
     if (songReport && songReport.report) {
-        get_tile = songReport.title;
         for (const rep in songReport.report) {
             label.push(songReport.report[rep].udid.slice(0, 5))
             get_usage.push(songReport.report[rep].usage)
@@ -72,7 +68,8 @@ function Report(props) {
             fetchSongReport();
         }
     };
-    React.useEffect(() => { fetchSongReport(); }, [])
+    // eslint-disable-next-line
+    React.useEffect(() => fetchSongReport(), [])
     return (
         <div className="container mt-5 pt-5">
             {songReport ? <>
