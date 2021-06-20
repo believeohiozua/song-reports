@@ -3,7 +3,6 @@ import axios from 'axios';
 
 
 function CreateSong(props) {
-    const [songUpdate, setsongUpdate] = useState()
     const [inputField, setInputField] = useState({
         song: '',
         title: '',
