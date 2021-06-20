@@ -31,10 +31,17 @@ function CreateSong(props) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const { song, title, artist, description, photo, email } = inputField;
-        const data = { song, title, artist, description, photo, email };     
-        axios.post('/api/v1/song/add', data)
-            .then(response => SubmsissionRemark(response.data))
-            .catch(response => console.log(response.data));
+        const data = { song, title, artist, description, photo, email };
+        if (props.match.params.id) {
+            axios.put(`/api/v1/song/update/${props.match.params.id}`, data)
+                .then(response => setInputField(response.data))
+                .catch(response => console.log(response.data));
+            window.location = `/song/${props.match.params.id}`;
+        } else {
+            axios.post('/api/v1/song/add', data)
+                .then(response => SubmsissionRemark(response.data))
+                .catch(response => console.log(response.data));
+        }
     };
 
     const handleChange = name => e => {

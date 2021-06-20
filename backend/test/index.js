@@ -21,12 +21,12 @@ const sampleSongOne = {
     report: [],
 };
 const sampleSongTwo = {
-    song: "https://www.youtube.com/watch?v=QF08nvtHHCY",
-    title: "Corporate Background Music",
-    artist: "FreeCopyrightMusic",
-    description: "Corporate background music for your videos",
-    photo: "https://yt3.ggpht.com/ytc/AAUvwnjXhp2XEQyxqsjA7HOw3UFNHwd4AruZeKxKK9S4=s48-c-k-c0x00ffffff-no-rj4",
-    email: "email@example.com",
+    song: "https://www.youtube.com/watch?v=5YYR5PG2X9U",
+    title: "Learn Guitar with Fretello",
+    artist: "Fretello",
+    description: "With Fretello, you can become the guitar player you always wanted to be. Download the Fretello Lead app, grab your guitar and start practicing now!",
+    photo: "https://yt3.ggpht.com/ytc/AAUvwnjoNlNE15wf7xUXGo9pkeC0Q_rqo2dJc5MtFC7fyg=s48-c-k-c0x00ffffff-no-rj",
+    email: "email@fretello.com",
     report: [],
 };
 

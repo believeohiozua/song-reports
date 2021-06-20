@@ -24,6 +24,17 @@ function FilterTable(props) {
         }
     }
 
+    const convertHMS = (value) => {
+        const sec = parseInt(value, 10);
+        let hours = Math.floor(sec / 3600);
+        let minutes = Math.floor((sec - (hours * 3600)) / 60);
+        let seconds = sec - (hours * 3600) - (minutes * 60);
+        if (hours < 10) { hours = "0" + hours; }
+        if (minutes < 10) { minutes = "0" + minutes; }
+        if (seconds < 10) { seconds = "0" + seconds; }
+        return hours + ':' + minutes + ':' + seconds;
+    }
+
     const filterByDate = () => {
         const filterbydate = document.getElementById('filterbydate');
         const everything = document.getElementById('everything');
@@ -122,14 +133,14 @@ function FilterTable(props) {
                         { props.songReport.report.reverse() }
                         var everything_total_usage = (props.songReport.report.reduce((a, v) => a = a + v.usage, 0))
                         var total_usage = document.getElementById('total_usage');
-                        if (total_usage) { total_usage.innerHTML = `Total Usage: ${everything_total_usage.toFixed(1)}` }
+                        if (total_usage) { total_usage.innerHTML = `Total Usage: ${convertHMS(everything_total_usage)}` }
                         return (
                             <>
                                 <tr key={i}>
                                     <td>{i + 1}</td>
                                     <td>{report.udid.slice(0, 15)}...</td>
-                                    <td>{report.video_length.toFixed(2)}</td>
-                                    <td>{report.usage.toFixed(2)}</td>
+                                    <td>{convertHMS(report.video_length)}</td>
+                                    <td>{convertHMS(report.usage)}</td>
                                     <td>{report.percentage_usage}</td>
                                     <td>{moment(report.date).format('DD MMM, YYYY')}</td>
                                     <td className="text-center">
@@ -174,14 +185,14 @@ function FilterTable(props) {
                         if (sampleDate.getDate() == varied_date.getDate()) {
                             var get_today_total = (props.songReport.report.reduce((a, v) => a = a + v.usage, 0));
                             var total_usage = document.getElementById('get_today_total');
-                            if (total_usage) { total_usage.innerHTML = `Total Usage: ${get_today_total.toFixed(1)}` }
+                            if (total_usage) { total_usage.innerHTML = `Total Usage: ${convertHMS(get_today_total)}` }
                             return (
                                 <>
                                     <tr key={i}>
                                         <td>{i + 1}</td>
                                         <td>{report.udid.slice(0, 15)}...</td>
-                                        <td>{report.video_length.toFixed(2)}</td>
-                                        <td>{report.usage.toFixed(2)}</td>
+                                        <td>{convertHMS(report.video_length)}</td>
+                                        <td>{convertHMS(report.usage)}</td>
                                         <td>{report.percentage_usage}</td>
                                         <td>{moment(report.date).format('DD MMM, YYYY')}</td>
                                         <td className="text-center">
@@ -217,14 +228,14 @@ function FilterTable(props) {
                         if (sampleDate.getWeek() == varied_date.getWeek()) {
                             var get_week_total = (props.songReport.report.reduce((a, v) => a = a + v.usage, 0));
                             var total_usage = document.getElementById('get_week_total');
-                            if (total_usage) { total_usage.innerHTML = `Total Usage: ${get_week_total.toFixed(1)}` }
+                            if (total_usage) { total_usage.innerHTML = `Total Usage: ${convertHMS(get_week_total)}` }
                             return (
                                 <>
                                     <tr key={i}>
                                         <td>{i + 1}</td>
                                         <td>{report.udid.slice(0, 15)}...</td>
-                                        <td>{report.video_length.toFixed(2)}</td>
-                                        <td>{report.usage.toFixed(2)}</td>
+                                        <td>{convertHMS(report.video_length)}</td>
+                                        <td>{convertHMS(report.usage)}</td>
                                         <td>{report.percentage_usage}</td>
                                         <td>{moment(report.date).format('DD MMM, YYYY')}</td>
                                         <td className="text-center">
@@ -253,14 +264,14 @@ function FilterTable(props) {
                         if (sampleDate.getMonth() + 1 == varied_date.getMonth() + 1) {
                             var get_month_total = (props.songReport.report.reduce((a, v) => a = a + v.usage, 0));
                             var total_usage = document.getElementById('month_total_usage');
-                            if (total_usage) { total_usage.innerHTML = `Total Usage: ${get_month_total.toFixed(1)}` }
+                            if (total_usage) { total_usage.innerHTML = `Total Usage: ${convertHMS(get_month_total)}` }
                             return (
                                 <>
                                     <tr key={i}>
                                         <td>{i + 1}</td>
                                         <td>{report.udid.slice(0, 15)}...</td>
-                                        <td>{report.video_length.toFixed(2)}</td>
-                                        <td>{report.usage.toFixed(2)}</td>
+                                        <td>{convertHMS(report.video_length)}</td>
+                                        <td>{convertHMS(report.usage)}</td>
                                         <td>{report.percentage_usage}</td>
                                         <td>{moment(report.date).format('DD MMM, YYYY')}</td>
                                         <td className="text-center">

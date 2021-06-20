@@ -8,12 +8,25 @@ import FilterTable from './filtertable.component'
 
 
 function Report(props) {
-    const [songReport, setsongReport] = useState()
-    const fetchSongReport = () => {
-        axios.get(`/api/v1/song/${props.match.params.id}`)
-            .then(response => setsongReport(response.data))
+    const [songReport, setsongReport] = useState();
+    const [artistInfo, setArtistInfo] = useState();
+
+    const fetchArtistInfo = (artist_name) => {
+        axios.get(`https://theaudiodb.com/api/v1/json/1/search.php?s=${artist_name.split(" ")[0]}`)
+            .then(response => setArtistInfo(response.data))
             .catch(response => console.log(response.data));
     }
+    const fetchSongReport = () => {
+        axios.get(`/api/v1/song/${props.match.params.id}`)
+            .then(response => { setsongReport(response.data); fetchArtistInfo(songReport.artist) })
+            .catch(response => console.log(response.data));
+    }
+    const deleteSong = () => {
+        if (window.confirm("Are you sure you want to delete this song?")) {
+            axios.delete(`/api/v1/song/${props.match.params.id}`)
+            window.location = '/';
+        }
+    };
     var label = []
     var get_usage = []
     var get_video_length = []
@@ -26,6 +39,7 @@ function Report(props) {
             get_video_length.push(songReport.report[rep].percentage_usage)
         }
     }
+
     const fetchReportData = {
         labels: label,
         datasets: [
@@ -58,7 +72,7 @@ function Report(props) {
             fetchSongReport();
         }
     };
-    React.useEffect(() => fetchSongReport(), [])
+    React.useEffect(() => { fetchSongReport(); }, [])
     return (
         <div className="container mt-5 pt-5">
             {songReport ? <>
@@ -72,65 +86,7 @@ function Report(props) {
                             deleteReport={deleteReport}
                             fetchSongReport={fetchSongReport}
                         />
-                    
-                        {/* 
-                        <Table responsive="xl">
-                            <thead className="text-center">
-                                <tr>
-                                    <th>S/N</th>
-                                    <th>UDID</th>
-                                    <th>Video Length</th>
-                                    <th>Usage</th>
-                                    <th>Percentage(%)</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {songReport.report && songReport.report.length > 0 ? songReport.report.map((report, i) => {
-                                    { songReport.report.reverse() }
-                                    return (
-                                        <tr key={i}>
-                                            <td>{i + 1}</td>
-                                            <td>{report.udid.slice(0, 10)}...</td>
-                                            <td>{report.video_length.toFixed(2)}</td>
-                                            <td>{report.usage.toFixed(2)}</td>
-                                            <td>{report.percentage_usage}</td>
-                                            <td>{moment(report.date).format('DD MMM, YYYY')}</td>
-                                            <td className="text-center">
-                                                <button
-                                                    className="btn btn-outline-danger btn-sm"
-                                                    onClick={() => deleteReport(report._id, report.get_usage_id)}
-                                                >
-                                                    <i className="fa fa-trash"></i>
-                                                </button>
-                                            </td>
-
-                                        </tr>
-                                    )
-                                })
-                                    :
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td className="py-5">
-                                            <p>No Avalible Report for this song</p>
-                                            <Link
-                                                className="btn btn-outline-success"
-                                                to={{
-                                                    pathname: `/song/${songReport._id}`,
-                                                    state: { id: songReport._id }
-                                                }}
-                                            >Add Usage Report <i className="fa fa-arrow-right"></i></Link>
-                                        </td>
-                                    </tr>
-                                }
-
-                            </tbody>
-                        
-                        </Table>
-                    */}
                     </div>
                     <div className="col-md-4">
                         <div
@@ -140,20 +96,53 @@ function Report(props) {
                                 height: '300px'
                             }}
                         >
-                            <div className="App">
+                            <div className="">
                                 <Line data={fetchReportData} />
                             </div>
+                            <div className=" my-3">
+                                <p><strong>
+                                    About {songReport.artist}</strong></p>
+
+                                <div style={{ height: "11em", overflowY: 'scroll' }}>
+                                    {artistInfo && artistInfo.artists && artistInfo.artists.length > 0 ? artistInfo.artists.map((artist, i) => {
+                                        return (
+                                            <span key={i} className="text-left">
+                                                <small>
+                                                    {artist.strBiographyEN}
+                                                </small>
+                                            </span>)
+                                    }) : <span className="text-center small mx-auto">
+                                        No avalible record for <span className="text-success text-center">{songReport.artist}</span>
+                                    </span>}
+                                </div>
+
+                            </div>
+                            <div className="my-2 text-center">
+                                <Link
+                                    className="btn btn-outline-success rounded-circle"
+                                    to={{
+                                        pathname: `/song/${songReport._id}`,
+                                        state: { id: songReport._id }
+                                    }}
+                                > <i className="fa fa-play" aria-hidden="true"></i>
+                                </Link> &ensp;
+                                <Link
+                                    className="btn btn-outline-warning rounded-circle"
+                                    to={{
+                                        pathname: `/update/${songReport._id}`,
+                                        state: { id: songReport._id }
+                                    }}
+                                > <i className="fa fa-edit text-warning" aria-hidden="true"></i>
+                                </Link> &ensp;
+                                <button
+                                    className="btn btn-outline-danger rounded-circle"
+                                    onClick={deleteSong}
+
+                                > <i className="fa fa-trash text-danger" aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div className="my-3">
-                            <Link
-                                className="btn btn-outline-success"
-                                to={{
-                                    pathname: `/song/${songReport._id}`,
-                                    state: { id: songReport._id }
-                                }}
-                            > Play <i className="fa fa-play" aria-hidden="true"></i>
-                            </Link>
-                        </div>
+
                     </div>
                 </div>
             </>

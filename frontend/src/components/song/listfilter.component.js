@@ -50,9 +50,10 @@ function ListFilter(props) {
         </div>
         <hr className="my-3" />
       </div>
-      <div style={{ padding: 10 }}>
+      <div style={{ padding: 10 }} className="row">
         {filteredData && filteredData.length > 0 ? filteredData.map((song, i) => {
           return (
+
             <div className="col-md-3 mb-3" key={i}>
               <div className="border p-1 rounded shadow">
                 <div className="d-flex justify-content-between position-absolute w-100">

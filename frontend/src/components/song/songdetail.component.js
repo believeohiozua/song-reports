@@ -109,6 +109,12 @@ function SongDetail(props) {
                                 playing={play}
                             />
                         </div>
+                        <ProgressBar className="my-1">
+                            <ProgressBar striped variant={
+                                newprogress.get_percentage < 33.33 ? 'warning' : `${newprogress.get_percentage < 66.66 ? 'info' : 'success'}`
+                            } now={newprogress.get_percentage} label={`${newprogress.get_percentage}%`} />
+                        </ProgressBar>
+                        <hr />
                         <div className="row border-bottom rounded-pill my-auto">
                             <form className='col-3'>
                                 <div className="form-group m-1">
@@ -144,12 +150,7 @@ function SongDetail(props) {
                         </div>
 
                         <hr />
-                        <ProgressBar>
-                            <ProgressBar striped variant={
-                                newprogress.get_percentage < 33.33 ? 'warning' : `${newprogress.get_percentage < 66.66 ? 'info' : 'success'}`
-                            } now={newprogress.get_percentage} label={`${newprogress.get_percentage}%`} />
-                        </ProgressBar>
-                        <hr />
+
                         <div>
                             <h4>{songDetail.artist}</h4>
                             {songDetail.description}
