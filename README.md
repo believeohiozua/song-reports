@@ -16,7 +16,8 @@ NOTE
 1. unzip the file song-report.zip file
 2. open the song-report folder with the terminal 
 
-NOTE: Create a .env file with `ATLAS_URI=mongodb-connection string` at  `song-report/backend` directory
+NOTE: Create a .env file with `ATLAS_URI=mongodb-connection string` 
+      at  `song-report/backend` directory
 
 3. For Docker run: 
         - docker-compose build
